@@ -2,7 +2,7 @@ import os
 from huggingface_hub import hf_hub_download
 
 # Hugging Face Repository details
-REPO_ID = "Harishuuu/neuracare-models"
+REPO_ID = "harishuuu/neuracare-models"
 MODELS_DIR = "models"
 
 # List of models exactly tracking the app.py required payload
