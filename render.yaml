@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: neuralcare
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python app.py"
+    envVars:
+      - key: HF_TOKEN
+        scope: run
+        sync: false
+      - key: PYTHONUNBUFFERED
+        value: true

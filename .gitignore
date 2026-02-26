@@ -20,8 +20,11 @@ node_modules/
 .env
 .env.local
 
+# Models folder (downloaded at runtime from HuggingFace)
+models/
 
+# Python
 __pycache__/
 *.pkl
-models/
+*.pyc
 venv/
