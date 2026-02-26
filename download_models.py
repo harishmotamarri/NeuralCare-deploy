@@ -6,15 +6,15 @@ REPO_ID = "harishmotamarri/neuralcare-models"
 MODELS_DIR = "models"
 
 # List of models exactly tracking the app.py required payload
-MODEL_FILES = [
-    'bed_model.pkl',
-    'icu_model.pkl',
-    'vent_model.pkl',
-    'admission_model.pkl',
-    'bed_alert_model.pkl',
-    'icu_alert_model.pkl',
-    'vent_alert_model.pkl',
-    'feature_cols.pkl'
+MODELS = [
+    "bed_model.pkl",
+    "icu_model.pkl",
+    "vent_model.pkl",
+    "admission_model.pkl",
+    "bed_alert_model.pkl",
+    "icu_alert_model.pkl",
+    "vent_alert_model.pkl",
+    "feature_cols.pkl"
 ]
 
 def download_all_models():
@@ -26,7 +26,7 @@ def download_all_models():
     
     print(f"Checking for models in '{MODELS_DIR}/' from HF repository '{REPO_ID}'...")
     
-    for model_file in MODEL_FILES:
+    for model_file in MODELS:
         local_path = os.path.join(MODELS_DIR, model_file)
         
         # Check if file exists and skip if it does
@@ -40,7 +40,6 @@ def download_all_models():
                 repo_id=REPO_ID,
                 filename=model_file,
                 local_dir=MODELS_DIR,
-                local_dir_use_symlinks=False
             )
             print(f"[✓] Successfully downloaded {model_file}.")
         except Exception as e:
