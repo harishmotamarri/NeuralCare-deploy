@@ -40,6 +40,7 @@ def download_all_models():
                 repo_id=REPO_ID,
                 filename=model_file,
                 local_dir=MODELS_DIR,
+                    token=False
             )
             print(f"[✓] Successfully downloaded {model_file}.")
         except Exception as e:
