@@ -6,6 +6,17 @@ import pickle
 from datetime import datetime
 import os
 
+# --- DYNAMIC MODEL DOWNLOADER ---
+# Ensure models are downloaded before backend starts
+if not os.path.exists('models') or len([f for f in os.listdir('models') if f.endswith('.pkl')]) < 8:
+    print("Initializing environment: Models missing, downloading from HF...")
+    try:
+        import download_models
+        download_models.download_all_models()
+    except Exception as e:
+        print("Failed to download models automatically:", e)
+
+# Singleton application instance
 app = Flask(__name__)
 CORS(app) # Allow CORS since frontend is running on different port or pure file:///
 
@@ -225,4 +236,12 @@ def predict():
         return jsonify({"error": str(e)}), 400
 
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=True)
+
+# Wrap Flask WSGI to ASGI so `uvicorn app:app` works properly seamlessly in Railway
+try:
+    from a2wsgi import ASGIMiddleware
+    app = ASGIMiddleware(app)
+except ImportError:
+    pass
