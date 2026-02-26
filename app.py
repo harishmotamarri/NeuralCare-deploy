@@ -6,7 +6,9 @@ import pickle
 from datetime import datetime
 import os
 import threading
-
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
 # Lazy model loader - do not load models at startup to save memory/time.
 # Models will be downloaded (if missing) and loaded on first prediction request.
 models = None
