@@ -40,7 +40,11 @@ def load_models():
                     models[name] = pickle.load(f)
             else:
                 print(f"Warning: Model file not found at {path}")
-        return True if isinstance(models, dict) and len(models) == 8 else False
+        # report missing keys for debugging
+        missing = [k for k in model_vars if k not in models]
+        if missing:
+            print(f"load_models: models loaded but missing keys: {missing}")
+        return True if isinstance(models, dict) and len(models) == len(model_vars) else False
     except Exception as e:
         print(f"Error loading models: {e}")
         models = None
@@ -126,6 +130,9 @@ def predict():
 
         data = request.json
         print("/[predict] received payload:", data)
+        # debug: show which keys currently exist in models dict
+        if models is not None:
+            print("/[predict] current model keys", list(models.keys()))
         
         # Get Current Date logic
         current_date_str = data.get('current_date')
@@ -153,7 +160,10 @@ def predict():
         icu_occupancy = (occupied_icu / total_icu * 100) if total_icu > 0 else 0
         vent_occupancy = (occupied_vent / total_vent * 100) if total_vent > 0 else 0
         
-        feature_cols = models['features']
+        try:
+            feature_cols = models['features']
+        except KeyError:
+            raise RuntimeError("'features' model missing; check that the HF repo contains feature_cols.pkl and download succeeded")
         input_data = {}
         
         for col in feature_cols:
