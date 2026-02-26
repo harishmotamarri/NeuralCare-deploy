@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NeuralCare — Hospital Resource Forecasting</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/landing.css">
+</head>
+
+<body>
+
+    <!-- ═══════════════════════════════════════════════════════════ NAVBAR -->
+    <nav id="navbar">
+        <div class="container">
+            <div class="nav-inner">
+                <a href="index.html" class="nav-logo">
+                    <img src="assets/img/download_logo.jpg" alt="NeuralCare" class="nav-logo-icon"
+                        style="object-fit: cover; border-radius: 8px; width: 32px; height: 32px;">
+                    <span class="nav-logo-text">NeuralCare</span>
+                </a>
+
+                <ul class="nav-links">
+                    <li><a href="#portals">Portals</a></li>
+                    <li><a href="#problem">Problem</a></li>
+                    <li><a href="#solution">Solution</a></li>
+                    <li><a href="#impact">Impact</a></li>
+                </ul>
+
+                <div class="nav-ctas">
+                    <button class="theme-toggle" id="themeToggleBtn" aria-label="Toggle Dark Mode">
+                        🌓
+                    </button>
+                    <a href="hospitalLogin.html" class="nav-btn-outline">Hospital Login</a>
+                    <a href="checkAvailability.html" class="btn btn-primary"
+                        style="padding: .45rem 1rem; font-size: .72rem; border-radius: 9px;">Check Availability</a>
+                    <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+                        <span></span><span></span><span></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- mobile -->
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="#problem" class="mobile-link">Problem</a>
+            <a href="#solution" class="mobile-link">Solution</a>
+            <a href="#portals" class="mobile-link">Portals</a>
+            <a href="#impact" class="mobile-link">Impact</a>
+        </div>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════════════════════ HERO -->
+    <section id="hero">
+        <div class="hero-dots"></div>
+        <div class="hero-blob1"></div>
+        <div class="hero-blob2"></div>
+        <div class="container">
+            <div class="hero-inner">
+
+                <!-- Left -->
+                <div>
+                    <h1 class="hero-title reveal">
+                        Predict Hospital<br>
+                        <span class="accent">Resource Shortages</span>
+                        <span class="light"
+                            style="font-size: clamp(1.2rem, 2.5vw, 1.8rem); font-weight: 400; color: var(--slate-400); margin-left: 7px; display: inline-block;">Early
+                            Warning System</span>
+                    </h1>
+                    <p class="hero-sub reveal">
+                        AI-driven forecasting gives hospital administrators a 48–96 hour early warning window for bed,
+                        ICU, and equipment shortages — and gives the public real-time availability at a glance.
+                    </p>
+                    <div class="hero-ctas reveal">
+                        <a href="hospitalLogin.html" class="btn btn-primary">
+                            Hospital Login
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                                <polyline points="12 5 19 12 12 19" />
+                            </svg>
+                        </a>
+                        <a href="checkAvailability.html" class="btn btn-outline">
+                            Check Hospital Availability
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                                <polyline points="12 5 19 12 12 19" />
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="hero-stats reveal">
+                        <div>
+                            <div class="hero-stat-val">48–96hr</div>
+                            <div class="hero-stat-lbl">Prediction window</div>
+                        </div>
+                        <div>
+                            <div class="hero-stat-val">SHAP</div>
+                            <div class="hero-stat-lbl">Explainable alerts</div>
+                        </div>
+                        <div>
+                            <div class="hero-stat-val">HIPAA-safe</div>
+                            <div class="hero-stat-lbl">Aggregated data only</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right -->
+                <div class="hero-right">
+                    <!-- Forecast Chart -->
+                    <div class="chart-card reveal">
+                        <div class="chart-header">
+                            <div>
+                                <div class="chart-title-sm">AI Forecast</div>
+                                <div class="chart-title">ICU Utilization — 12-Day Outlook</div>
+                            </div>
+                            <span class="badge badge-amber">
+                                <span class="dot dot-amber" style="width:6px;height:6px;"></span>
+                                Elevated Risk
+                            </span>
+                        </div>
+                        <div class="chart-body">
+                            <svg id="forecastChart" viewBox="0 0 480 140" style="width:100%;height:140px;"
+                                preserveAspectRatio="none"></svg>
+                        </div>
+                        <div class="chart-footer">
+                            <div class="chart-legend">
+                                <div class="legend-item"><span class="legend-line"
+                                        style="background:#3b82f6;"></span>Predicted</div>
+                                <div class="legend-item"><span class="legend-line"
+                                        style="background:#f59e0b;border-top:2px dashed #f59e0b;background:none;border-bottom:none;"></span>Alert
+                                    Threshold</div>
+                                <div class="legend-item"><span class="legend-dot"
+                                        style="background:#ef4444;"></span>Critical Point</div>
+                            </div>
+                            <span style="font-size:.65rem;color:#94a3b8;font-weight:600;">+96hr window</span>
+                        </div>
+                    </div>
+
+                    <!-- Resource Cards -->
+                    <div class="resource-cards">
+                        <div class="resource-card reveal">
+                            <div class="rc-label">ICU Beds</div>
+                            <div class="rc-value rc-red">92%</div>
+                            <div class="rc-sub">Occupancy</div>
+                            <span class="badge badge-red">● Critical</span>
+                        </div>
+                        <div class="resource-card reveal">
+                            <div class="rc-label">Gen. Wards</div>
+                            <div class="rc-value rc-amber">74%</div>
+                            <div class="rc-sub">Occupancy</div>
+                            <span class="badge badge-amber">● Moderate</span>
+                        </div>
+                        <div class="resource-card reveal">
+                            <div class="rc-label">Ventilators</div>
+                            <div class="rc-value rc-green">61%</div>
+                            <div class="rc-sub">In Use</div>
+                            <span class="badge badge-green">● Normal</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════ PORTALS -->
+    <section id="portals" class="section">
+        <div class="container">
+            <div class="section-header reveal">
+                <p class="eyebrow">Platform Overview</p>
+                <h2>Two portals. One unified system.</h2>
+                <p>NeuralCare serves two distinct audiences through purpose-built interfaces connected to the same
+                    forecasting engine.</p>
+            </div>
+            <div class="portals-grid reveal">
+                <!-- Admin Portal -->
+                <div class="portal-card admin reveal">
+                    <div class="portal-header">
+                        <div class="portal-icon admin">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="portal-tag">For Administrators</div>
+                            <div class="portal-name">Hospital Admin Portal</div>
+                        </div>
+                    </div>
+                    <p class="portal-desc">A secure, role-based dashboard giving hospital administrators complete
+                        operational visibility and proactive resource management tools — backed by live AI forecasting.
+                    </p>
+                    <ul class="portal-features">
+                        <li class="portal-feature">
+                            <div class="pf-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                    <line x1="12" y1="20" x2="12" y2="10" />
+                                    <line x1="18" y1="20" x2="18" y2="4" />
+                                    <line x1="6" y1="20" x2="6" y2="16" />
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="pf-name">Forecast Dashboards</div>
+                                <div class="pf-desc">96-hour bed, ICU, and equipment utilization forecasts with
+                                    confidence bands.</div>
+                            </div>
+                        </li>
+                        <li class="portal-feature">
+                            <div class="pf-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="pf-name">ICU Prediction Engine</div>
+                                <div class="pf-desc">Dedicated ICU capacity forecasting with risk scoring and daily
+                                    briefings.</div>
+                            </div>
+                        </li>
+                        <li class="portal-feature">
+                            <div class="pf-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                    <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0" />
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="pf-name">Alert System</div>
+                                <div class="pf-desc">Tiered warnings dispatched via dashboard, email, and API with SHAP
+                                    rationale.</div>
+                            </div>
+                        </li>
+                        <li class="portal-feature">
+                            <div class="pf-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                    <line x1="4" y1="21" x2="4" y2="14" />
+                                    <line x1="4" y1="10" x2="4" y2="3" />
+                                    <line x1="12" y1="21" x2="12" y2="12" />
+                                    <line x1="12" y1="8" x2="12" y2="3" />
+                                    <line x1="20" y1="21" x2="20" y2="16" />
+                                    <line x1="20" y1="12" x2="20" y2="3" />
+                                    <line x1="1" y1="14" x2="7" y2="14" />
+                                    <line x1="9" y1="8" x2="15" y2="8" />
+                                    <line x1="17" y1="16" x2="23" y2="16" />
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="pf-name">What-If Simulation</div>
+                                <div class="pf-desc">Model surge scenarios, staffing changes, or equipment failures
+                                    before they happen.</div>
+                            </div>
+                        </li>
+                        <li class="portal-feature">
+                            <div class="pf-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="pf-name">Action Recommendations</div>
+                                <div class="pf-desc">AI-suggested response playbooks for each risk level and resource
+                                    type.</div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div style="display: flex; font-family: 'Inter', sans-serif; flex-direction: column; gap: 0.75rem;">
+                        <a href="hospitalLogin.html" class="btn btn-primary" style="width:100%;justify-content:center;">
+                            Hospital Login
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                                <polyline points="12 5 19 12 12 19" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Public Portal -->
+                <div class="portal-card public reveal">
+                    <div class="portal-header">
+                        <div class="portal-icon public">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                                <circle cx="9" cy="7" r="4" />
+                                <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="portal-tag">For the Public</div>
+                            <div class="portal-name">Public User Portal</div>
+                        </div>
+                    </div>
+                    <p class="portal-desc">A transparent, accessible interface giving citizens real-time insight into
+                        hospital capacity — enabling informed decisions before seeking care during high-demand periods.
+                    </p>
+                    <ul class="portal-features">
+                        <li class="portal-feature">
+                            <div class="pf-icon g">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="pf-name">Real-Time Availability</div>
+                                <div class="pf-desc">Live bed availability and occupancy rates across nearby hospitals.
+                                </div>
+                            </div>
+                        </li>
+                        <li class="portal-feature">
+                            <div class="pf-icon g">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                    <path
+                                        d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="pf-name">ICU Occupancy Status</div>
+                                <div class="pf-desc">Current ICU utilization displayed clearly with risk-level
+                                    indicators.</div>
+                            </div>
+                        </li>
+                        <li class="portal-feature">
+                            <div class="pf-icon g">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                    <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0" />
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="pf-name">Risk Level Indicator</div>
+                                <div class="pf-desc">Simple Low / Moderate / Critical signals at a glance — no clinical
+                                    knowledge needed.</div>
+                            </div>
+                        </li>
+                        <li class="portal-feature">
+                            <div class="pf-icon g">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+                                    <circle cx="12" cy="10" r="3" />
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="pf-name">Hospital Comparison</div>
+                                <div class="pf-desc">Side-by-side availability comparison for multiple facilities in
+                                    your region.</div>
+                            </div>
+                        </li>
+                        <li class="portal-feature">
+                            <div class="pf-icon g">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                    <circle cx="12" cy="12" r="3" />
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="pf-name">Transparency Layer</div>
+                                <div class="pf-desc">Public forecasts give citizens early visibility into potential
+                                    capacity crunches.</div>
+                            </div>
+                        </li>
+                    </ul>
+                    <a href="checkAvailability.html" class="btn btn-green" style="width:100%;justify-content:center;">
+                        Check Hospital Availability
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                            <polyline points="12 5 19 12 12 19" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════════ PROBLEM -->
+    <section id="problem" class="section">
+        <div class="problem-glow"></div>
+        <div class="container">
+            <div class="section-header light reveal">
+                <p class="eyebrow">The Problem</p>
+                <h2>Hospitals manage shortages<br>reactively — not proactively.</h2>
+                <p>By the time a resource shortage appears in a hospital's dashboard, the window for effective
+                    intervention has already closed.</p>
+            </div>
+            <div class="problem-grid">
+                <div class="problem-stat reveal">
+                    <div class="problem-stat-val">42%</div>
+                    <div class="problem-stat-desc">of hospitals report weekly critical resource shortages</div>
+                </div>
+                <div class="problem-stat reveal">
+                    <div class="problem-stat-val">16 hrs</div>
+                    <div class="problem-stat-desc">average reactive response lag when shortages occur</div>
+                </div>
+                <div class="problem-stat reveal">
+                    <div class="problem-stat-val">₹9,200cr</div>
+                    <div class="problem-stat-desc">annual cost of unplanned ICU overflow in India</div>
+                </div>
+                <div class="problem-stat reveal">
+                    <div class="problem-stat-val">2 in 5</div>
+                    <div class="problem-stat-desc">patients experience care delays from resource gaps</div>
+                </div>
+            </div>
+            <div class="problem-callout reveal">
+                <p><strong>Core issue: </strong>Hospitals can see current bed and ICU usage, but they cannot predict
+                    future demand.
+                    Shortages are often identified only after resources are already full.
+                    A predictive system is needed to provide early warnings and enable proactive planning.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════ SOLUTION -->
+    <section id="solution" class="section">
+        <div class="container">
+            <div class="solution-grid">
+                <div class="reveal">
+                    <p class="solution-eyebrow">Our AI Solution</p>
+                    <h2 class="solution-title">Forecasting that turns<br>data into early action</h2>
+                    <p class="solution-body">NeuralCare aggregates anonymized operational hospital data and applies
+                        multivariate time-series models to forecast resource demand 48–96 hours ahead. Every prediction
+                        is paired with a human-readable explanation — so administrators know what to expect and exactly
+                        why.</p>
+                    <ul class="feature-list">
+                        <li class="feature-item reveal">
+                            <div class="feature-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                                    <polyline points="17 6 23 6 23 12" />
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="feature-name">Multivariate Time-Series Modeling</div>
+                                <div class="feature-desc">Random Forest Classifier and Regression Algorithm captures
+                                    seasonal surges, cross-resource dependencies, and admission velocity patterns.</div>
+                            </div>
+                        </li>
+                        <li class="feature-item reveal">
+                            <div class="feature-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                    <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0" />
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="feature-name">Tiered Early Warning Alerts</div>
+                                <div class="feature-desc">Low / Moderate / Critical thresholds trigger alerts 48–96
+                                    hours before a shortage — when action is still feasible.</div>
+                            </div>
+                        </li>
+                        <li class="feature-item reveal">
+                            <div class="feature-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="feature-name">Privacy-Preserving Data Architecture</div>
+                                <div class="feature-desc">All models operate on de-identified, aggregated operational
+                                    data. Zero patient-level PII enters the pipeline.</div>
+                            </div>
+                        </li>
+                        <li class="feature-item reveal">
+                            <div class="feature-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                    <circle cx="12" cy="12" r="3" />
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="feature-name">Explainable AI Insights</div>
+                                <div class="feature-desc">SHAP attribution exposes the top contributing factors behind
+                                    each prediction — building trust and enabling targeted response.</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="solution-sticky reveal">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div>
+                                <div class="chart-title-sm">AI Forecast</div>
+                                <div class="chart-title">ICU Utilization — 12-Day Outlook</div>
+                            </div>
+                            <span class="badge badge-amber">
+                                <span class="dot dot-amber" style="width:6px;height:6px;"></span>
+                                Elevated Risk
+                            </span>
+                        </div>
+                        <div class="chart-body">
+                            <svg id="forecastChart2" viewBox="0 0 480 140" style="width:100%;height:140px;"
+                                preserveAspectRatio="none"></svg>
+                        </div>
+                        <div class="chart-footer">
+                            <div class="chart-legend">
+                                <div class="legend-item"><span class="legend-line"
+                                        style="background:#3b82f6;"></span>Predicted</div>
+                                <div class="legend-item"><span class="legend-line"
+                                        style="background:#f59e0b;"></span>Threshold</div>
+                            </div>
+                            <span style="font-size:.65rem;color:#94a3b8;font-weight:600;">+96hr window</span>
+                        </div>
+                    </div>
+                    <div class="shap-card">
+                        <div class="shap-eyebrow">SHAP Explanation — ICU Risk Alert</div>
+                        <div class="shap-row">
+                            <span class="shap-dot" style="background:#f87171;"></span>
+                            <span class="shap-factor">Weekend admission surge</span>
+                            <span class="shap-val shap-up">+19%</span>
+                        </div>
+                        <div class="shap-row">
+                            <span class="shap-dot" style="background:#f87171;"></span>
+                            <span class="shap-factor">Active flu season week 8</span>
+                            <span class="shap-val shap-up">+14%</span>
+                        </div>
+                        <div class="shap-row">
+                            <span class="shap-dot" style="background:#34d399;"></span>
+                            <span class="shap-factor">Discharge pipeline (next 24h)</span>
+                            <span class="shap-val shap-down">−11%</span>
+                        </div>
+                        <div class="shap-row">
+                            <span class="shap-dot" style="background:#f87171;"></span>
+                            <span class="shap-factor">Staffing coverage gap</span>
+                            <span class="shap-val shap-up">+8%</span>
+                        </div>
+                        <div class="shap-row">
+                            <span class="shap-dot" style="background:#f87171;"></span>
+                            <span class="shap-factor">Regional event proximity</span>
+                            <span class="shap-val shap-up">+5%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════ IMPACT -->
+    <section id="impact" class="section">
+        <div class="container">
+            <div class="section-header reveal">
+                <p class="eyebrow">Impact</p>
+                <h2>Measurable outcomes at every level</h2>
+                <p>Early warning systems are only valuable if they change what happens next. NeuralCare is engineered
+                    to close the gap between prediction and response.</p>
+            </div>
+            <div class="impact-grid">
+                <div class="impact-card reveal">
+                    <div class="impact-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                        </svg>
+                    </div>
+                    <div class="impact-stat">32%</div>
+                    <div class="impact-label">fewer overflow events</div>
+                    <div class="impact-title">Reduced Overcrowding</div>
+                    <div class="impact-desc">Fewer preventable ICU overflow incidents when administrators act on 48-hour
+                        forecasts rather than same-day indicators.</div>
+                </div>
+                <div class="impact-card reveal">
+                    <div class="impact-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                        </svg>
+                    </div>
+                    <div class="impact-stat">24hr</div>
+                    <div class="impact-label">advance intervention window</div>
+                    <div class="impact-title">Improved Preparedness</div>
+                    <div class="impact-desc">Procurement, staffing, and patient routing decisions happen before capacity
+                        thresholds are breached — not after.</div>
+                </div>
+                <div class="impact-card reveal">
+                    <div class="impact-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                            <path
+                                d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+                        </svg>
+                    </div>
+                    <div class="impact-stat">↑15%</div>
+                    <div class="impact-label">care continuity score</div>
+                    <div class="impact-title">Better Care Continuity</div>
+                    <div class="impact-desc">Patients experience fewer care delays. Routing decisions informed by real
+                        availability data reduce ER wait times.</div>
+                </div>
+                <div class="impact-card reveal">
+                    <div class="impact-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                            <polyline points="17 6 23 6 23 12" />
+                        </svg>
+                    </div>
+                    <div class="impact-stat">₹3.1cr</div>
+                    <div class="impact-label">avg. annual savings</div>
+                    <div class="impact-title">Operational Efficiency</div>
+                    <div class="impact-desc">Anticipatory staffing and procurement reduce emergency overtime and
+                        last-minute equipment sourcing costs.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════════ FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <img src="assets/img/download_logo.jpg" alt="NeuralCare"
+                        style="object-fit: cover; border-radius: 8px; width: 40px; height: 40px;">
+                    <div>
+                        <div class="footer-brand-name">NeuralCare</div>
+                        <div class="footer-brand-sub">Hospital Resource Forecasting Platform</div>
+                    </div>
+                </div>
+                <div class="footer-right">
+                    <div class="footer-project">Made by Team BinaryBrains</div>
+                    <div class="footer-team">All rights reserved © 2026</div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-links">
+                    <a href="#portals">Admin Portal</a>
+                    <a href="#portals">Public Portal</a>
+                    <a href="#solution">Our Solution</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ═══════════════════════════════════════════════════════════ JAVASCRIPT -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/supabase-client.js"></script>
+    <script src="assets/js/landing.js"></script>
+    <script>
+        // Dark Mode Toggle Logic
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+
+        // Initialize theme from localStorage
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-theme');
+        }
+
+        if (themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', () => {
+                document.body.classList.toggle('dark-theme');
+                if (document.body.classList.contains('dark-theme')) {
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+        }
+    </script>
+    <script>
+        // Global Enter key support for focusable clickable elements
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                const target = event.target;
+                if (target.tagName !== 'BUTTON' && target.tagName !== 'A' && target.hasAttribute('onclick')) {
+                    event.preventDefault();
+                    target.click();
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
