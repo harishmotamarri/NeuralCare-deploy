@@ -1640,6 +1640,24 @@
             });
 
             // AI Forecast Logic
+            // global toast helper (used by multiple functions)
+            function showToast(message, type = "success") {
+                const toast = document.getElementById("toast");
+                if (!toast) return;
+                toast.innerText = message;
+
+                if (type === "error") {
+                    toast.classList.add("error");
+                } else {
+                    toast.classList.remove("error");
+                }
+
+                toast.classList.add("show");
+                setTimeout(() => {
+                    toast.classList.remove("show");
+                }, 3000);
+            }
+
             async function runStreamlitForecast() {
                 const loadingDiv = document.getElementById('forecast-loading');
                 const resultsDiv = document.getElementById('forecast-results');
@@ -1677,7 +1695,10 @@
                         body: JSON.stringify(payload)
                     });
 
-                    if (!response.ok) throw new Error(`Server error: ${response.status}`);
+                    if (!response.ok) {
+                        const text = await response.text();
+                        throw new Error(`Server error ${response.status}: ${text}`);
+                    }
 
                     const result = await response.json();
                     if (!result.success) throw new Error("Failed to generate predictions");
@@ -2089,24 +2110,7 @@
                 fetchInitialData();
                 fetchAllResourcesTable();
 
-                // Toast Logic
-                function showToast(message, type = "success") {
-                    const toast = document.getElementById("toast");
-                    toast.innerText = message;
 
-                    if (type === "error") {
-                        toast.classList.add("error");
-                    } else {
-                        toast.classList.remove("error");
-                    }
-
-                    toast.classList.add("show");
-
-                    // Toast logic timeout execution
-                    setTimeout(() => {
-                        toast.classList.remove("show");
-                    }, 3000);
-                }
 
                 // Settings Dropdown & Theme Logic
                 window.toggleSettingsDropdown = function (e) {

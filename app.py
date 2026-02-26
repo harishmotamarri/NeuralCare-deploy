@@ -125,6 +125,7 @@ def predict():
             return jsonify({"error": f"Failed to prepare models: {e}"}), 500
 
         data = request.json
+        print("/[predict] received payload:", data)
         
         # Get Current Date logic
         current_date_str = data.get('current_date')
