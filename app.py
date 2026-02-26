@@ -5,16 +5,66 @@ import numpy as np
 import pickle
 from datetime import datetime
 import os
+import threading
 
-# --- DYNAMIC MODEL DOWNLOADER ---
-# Ensure models are downloaded before backend starts
-if not os.path.exists('models') or len([f for f in os.listdir('models') if f.endswith('.pkl')]) < 8:
-    print("Initializing environment: Models missing, downloading from HF...")
+# Lazy model loader - do not load models at startup to save memory/time.
+# Models will be downloaded (if missing) and loaded on first prediction request.
+models = None
+_models_lock = threading.Lock()
+
+def load_models():
+    """
+    Load model pickle files from the `models/` directory into a dict and
+    assign to the global `models` variable. Returns True if all expected
+    models were loaded, False otherwise.
+    """
+    global models
     try:
-        import download_models
-        download_models.download_all_models()
+        model_vars = {
+            'bed': 'models/bed_model.pkl',
+            'icu': 'models/icu_model.pkl',
+            'vent': 'models/vent_model.pkl',
+            'admission': 'models/admission_model.pkl',
+            'bed_alert': 'models/bed_alert_model.pkl',
+            'icu_alert': 'models/icu_alert_model.pkl',
+            'vent_alert': 'models/vent_alert_model.pkl',
+            'features': 'models/feature_cols.pkl'
+        }
+
+        models = {}
+        for name, path in model_vars.items():
+            if os.path.exists(path):
+                with open(path, 'rb') as f:
+                    models[name] = pickle.load(f)
+            else:
+                print(f"Warning: Model file not found at {path}")
+        return True if isinstance(models, dict) and len(models) == 8 else False
     except Exception as e:
-        print("Failed to download models automatically:", e)
+        print(f"Error loading models: {e}")
+        models = None
+        return False
+
+def get_models():
+    """Thread-safe getter for models. Downloads from HF if necessary and loads them."""
+    global models
+    if models is None:
+        with _models_lock:
+            if models is None:
+                # Try to load existing files first
+                ok = load_models()
+                if not ok:
+                    # Attempt to download missing models from Hugging Face
+                    try:
+                        import download_models
+                        download_models.download_all_models()
+                    except Exception as e:
+                        print("Failed to download models automatically:", e)
+                        raise
+                    # Retry loading after download
+                    ok = load_models()
+                    if not ok:
+                        raise RuntimeError("Models could not be loaded after download")
+    return models
 
 # Singleton application instance
 app = Flask(__name__)
@@ -46,8 +96,7 @@ def load_models():
         print(f"Error loading models: {e}")
         return False
 
-# Load them on startup
-is_loaded = load_models()
+# Do not load models at startup; they will be loaded on first request via get_models()
 
 @app.route('/', methods=['GET'])
 def index():
@@ -61,14 +110,18 @@ def serve_static(path):
 
 @app.route('/health', methods=['GET'])
 def health_check():
-    return jsonify({"status": "healthy", "models_loaded": is_loaded})
+    models_loaded = isinstance(models, dict) and len(models) == 8
+    return jsonify({"status": "healthy", "models_loaded": models_loaded})
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    if not is_loaded:
-        return jsonify({"error": "Models not fully loaded on server"}), 500
-        
     try:
+        # Ensure models are loaded lazily on first request
+        try:
+            _ = get_models()
+        except Exception as e:
+            return jsonify({"error": f"Failed to prepare models: {e}"}), 500
+
         data = request.json
         
         # Get Current Date logic
