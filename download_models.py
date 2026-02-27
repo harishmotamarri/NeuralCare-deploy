@@ -47,6 +47,12 @@ def download_all_models():
             print(f"[x] Error downloading {model_file}: {e}")
             
     print("All models verification completed.")
+    # dump directory contents for debugging
+    try:
+        files = os.listdir(MODELS_DIR)
+        print(f"Contents of {MODELS_DIR}: {files}")
+    except Exception as e:
+        print(f"Failed to list models directory: {e}")
 
 if __name__ == "__main__":
     download_all_models()
